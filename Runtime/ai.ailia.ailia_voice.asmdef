@@ -1,0 +1,17 @@
+{
+    "name": "ai.ailia.ailia_voice",
+    "rootNamespace": "",
+    "references": [
+        "GUID:52a304c7f68fd4ea88bc0eaeb925a042",
+        "GUID:4e431e7801b224af8afe2d8b5441e8d1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
