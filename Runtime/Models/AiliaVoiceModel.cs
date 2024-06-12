@@ -167,6 +167,8 @@ public class AiliaVoiceModel : IDisposable
 	*   If this function is successful, it returns  true  , or  false  otherwise.
 	*/
 	public bool OpenModel(string encoder, string decoder1, string decoder2, string wave, string ssl, int model_type, int cleaner_type){
+        AiliaLicense.CheckAndDownloadLicense();
+
 		int status = AiliaVoice.ailiaVoiceOpenModelFile(net, encoder, decoder1, decoder2, wave, ssl, model_type, cleaner_type);
 		if (status != 0){
 			if (debug_log){
