@@ -26,7 +26,7 @@ public class AiliaVoice
 	#endif
 
 	/****************************************************************
-	* アルゴリズム定義
+	* 辞書定義
 	**/
 
 	/**
@@ -39,6 +39,21 @@ public class AiliaVoice
 	* @brief Format for OpenJTalk
 	*/
 	public const Int32 AILIA_VOICE_DICTIONARY_TYPE_OPEN_JTALK = (0);
+
+	/**
+	* \~japanese
+	* @def AILIA_VOICE_DICTIONARY_TYPE_G2P_EN
+	* @brief G2P_EN形式
+	*
+	* \~english
+	* @def AILIA_VOICE_DICTIONARY_TYPE_G2P_EN
+	* @brief Format for G2P_EN
+	*/
+	public const Int32 AILIA_VOICE_DICTIONARY_TYPE_G2P_EN = (1);
+
+	/****************************************************************
+	* アルゴリズム定義
+	**/
 
 	/**
 	* \~japanese
@@ -105,47 +120,28 @@ public class AiliaVoice
 
 	/**
 	* \~japanese
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_NONE
-	* @brief 何もしません
+	* @def AILIA_VOICE_G2P_TYPE_GPT_SOVITS_EN
+	* @brief GPT_SOVITSの英語向けの処理
 	*
 	* \~english
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_NONE
-	* @brief Default flag
+	* @def AILIA_VOICE_G2P_TYPE_GPT_SOVITS_EN
+	* @brief GPT SOVITS English
 	*/
-	public const Int32 AILIA_VOICE_TEXT_POST_PROCESS_NONE = (0);
+	public const Int32 AILIA_VOICE_G2P_TYPE_GPT_SOVITS_EN = (1);
 
 	/**
 	* \~japanese
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_REMOVE_SPACE
-	* @brief SPACEを削除します
+	* @def AILIA_VOICE_G2P_TYPE_GPT_SOVITS_JA
+	* @brief GPT_SOVITSの日本語向けの処理
 	*
 	* \~english
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_REMOVE_SPACE
-	* @brief Remove space
+	* @def AILIA_VOICE_G2P_TYPE_GPT_SOVITS_JA
+	* @brief GPT SOVITS Japanese
 	*/
-	public const Int32 AILIA_VOICE_TEXT_POST_PROCESS_REMOVE_SPACE = (1);
+	public const Int32 AILIA_VOICE_G2P_TYPE_GPT_SOVITS_JA = (2);
 
-	/**
-	* \~japanese
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_APPEND_PUNCTUATION
-	* @brief 句読点を追加します。
-	*
-	* \~english
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_APPEND_PUNCTUATION
-	* @brief Add punctuation
-	*/
+	// 互換性用
 	public const Int32 AILIA_VOICE_TEXT_POST_PROCESS_APPEND_PUNCTUATION = (2);
-
-	/**
-	* \~japanese
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_APPEND_ACCENT
-	* @brief アクセントを追加します
-	*
-	* \~english
-	* @def AILIA_VOICE_TEXT_POST_PROCESS_APPEND_ACCENT
-	* @brief Add accent
-	*/
-	public const Int32 AILIA_VOICE_TEXT_POST_PROCESS_APPEND_ACCENT = (4);
 
 	/****************************************************************
 	* APIコールバック定義
@@ -457,7 +453,7 @@ public class AiliaVoice
 	* @brief G2Pを行います。
 	* @param net ボイスオブジェクトポインタ
 	* @param text テキスト(UTF8)
-	* @param text_post_process AILIA_VOICE_TEXT_POST_PROCESS_*
+	* @param g2p_type AILIA_VOICE_G2P_TYPE_*
 	* @return
 	*   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
 	* @details
@@ -467,14 +463,14 @@ public class AiliaVoice
 	* @brief Perform g2p
 	* @param net A Voice instance pointer
 	* @param text Text(UTF8)
-	* @param text_post_process AILIA_VOICE_TEXT_POST_PROCESS_*
+	* @param g2p_type AILIA_VOICE_G2P_TYPE_*
 	* @return
 	*   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
 	* @details
 	*   Get the result with ailiaVoiceGetFeatures API.
 	*/
 	[DllImport(LIBRARY_NAME)]
-	public static extern int ailiaVoiceGraphemeToPhoneme(IntPtr net, IntPtr utf8, int post_process);
+	public static extern int ailiaVoiceGraphemeToPhoneme(IntPtr net, IntPtr utf8, int g2p_type);
 
 	/**
 	* \~japanese
@@ -575,7 +571,7 @@ public class AiliaVoice
 	* @return
 	*   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
 	* @details
-	*   認識した結果はailiaVoiceGetFeatures APIで取得します。
+	*   音声合成した結果はailiaVoiceGetWave APIで取得します。
 	*
 	* \~english
 	* @brief Perform inference

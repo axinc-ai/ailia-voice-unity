@@ -233,23 +233,23 @@ public class AiliaVoiceModel : IDisposable
 	* \~japanese
 	* @brief 音素を取得します。
 	* @param utf8    入力文字列
-	* @param options ポストプロセスオプション
+	* @param g2p_type G2Pタイプ
 	* @return
 	*   成功した場合はstring、失敗した場合は空文字を返す。
 	*   
 	* \~english
 	* @brief   Get features
 	* @param utf8    Input string
-	* @param options Post process options
+	* @param g2p_type G2P type
 	* @return
 	*   If this function is successful, it returns string  , or  empty string otherwise.
 	*/
-	public string G2P(string utf8, int options){
+	public string G2P(string utf8, int g2p_type){
 		byte[] text = System.Text.Encoding.UTF8.GetBytes(utf8+"\u0000");
 		//Debug.Log(text[text.Length - 1]);
         GCHandle handle = GCHandle.Alloc(text, GCHandleType.Pinned);
         IntPtr input = handle.AddrOfPinnedObject();
-		int status = AiliaVoice.ailiaVoiceGraphemeToPhoneme(net, input, options);
+		int status = AiliaVoice.ailiaVoiceGraphemeToPhoneme(net, input, g2p_type);
 		handle.Free();
 		if (status != 0){
 			if (debug_log){
