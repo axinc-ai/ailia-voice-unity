@@ -165,6 +165,7 @@ public class AiliaVoice
 	public delegate int ailiaCallbackGetInputBlobCount(IntPtr a, IntPtr b);
 	public delegate int ailiaCallbackGetOutputBlobCount(IntPtr a, IntPtr b);
 	public delegate IntPtr ailiaCallbackGetErrorDetail(IntPtr a);
+	public delegate int ailiaCallbackCopyBlobData(IntPtr a, uint b, IntPtr c, uint d);
 
 	/****************************************************************
 	 *  引数をスルーする系のAPIに変換
@@ -289,6 +290,11 @@ public class AiliaVoice
 		return Ailia.ailiaGetErrorDetail(a);
 	}
 
+	[AOT.MonoPInvokeCallback(typeof(ailiaCallbackCopyBlobData))]
+	public static int ailiaCallbackCopyBlobDataBridge (IntPtr a, uint b, IntPtr c, uint d) {
+		return Ailia.ailiaCopyBlobData(a, b, c, d);
+	}
+
 	/**
 	* \~japanese
 	* @def AILIA_SPEECH_API_CALLBACK_VERSION
@@ -298,7 +304,7 @@ public class AiliaVoice
 	* @def AILIA_SPEECH_API_CALLBACK_VERSION
 	* @brief Struct version
 	*/
-	public const int AILIA_VOICE_API_CALLBACK_VERSION = (1);
+	public const int AILIA_VOICE_API_CALLBACK_VERSION = (2);
 
 	/* APIコールバック関数構造体 */
 	[StructLayout(LayoutKind.Sequential)]
@@ -323,6 +329,7 @@ public class AiliaVoice
 		public ailiaCallbackGetInputBlobCount ailiaGetInputBlobCount;
 		public ailiaCallbackGetOutputBlobCount ailiaGetOutputBlobCount;
 		public ailiaCallbackGetErrorDetail ailiaGetErrorDetail;
+		public ailiaCallbackCopyBlobData ailiaCopyBlobData;
 	};
 
 	public static AiliaVoice.AILIAVoiceApiCallback GetCallback(){
@@ -346,6 +353,7 @@ public class AiliaVoice
 		callback.ailiaGetInputBlobCount=ailiaCallbackGetInputBlobCountBridge;
 		callback.ailiaGetOutputBlobCount=ailiaCallbackGetOutputBlobCountBridge;
 		callback.ailiaGetErrorDetail=ailiaCallbackGetErrorDetailBridge;
+		callback.ailiaCopyBlobData=ailiaCallbackCopyBlobDataBridge;
 		
 		return callback;
 	}
@@ -361,7 +369,7 @@ public class AiliaVoice
 	* @param env_id 計算に利用する推論実行環境のID( ailiaGetEnvironment() で取得)  \ref AILIA_ENVIRONMENT_ID_AUTO にした場合は自動で選択する
 	* @param num_thread スレッド数の上限(  \ref AILIA_MULTITHREAD_AUTO  にした場合は自動で設定)
 	* @param memory_mode メモリモード(AILIA_MEMORY_MODE_*)
-	* @param flag AILIA_Voice_FLAG_*の論理和
+	* @param flag AILIA_VOICE_FLAG_*の論理和
 	* @param api_callback ailiaのAPIへのコールバック
 	* @param version AILIA_VOICE_API_CALLBACK_VERSION
 	* @return
@@ -375,7 +383,7 @@ public class AiliaVoice
 	* @param env_id The ID of the inference backend used for computation (obtained by  ailiaGetEnvironment() ). It is selected automatically if  \ref AILIA_ENVIRONMENT_ID_AUTO  is specified.
 	* @param num_thread The upper limit on the number of threads (It is set automatically if  \ref AILIA_MULTITHREAD_AUTO
 	* @param memory_mode The memory mode (AILIA_MEMORY_MODE_*)
-	* @param flag OR of AILIA_Voice_FLAG_*
+	* @param flag OR of AILIA_VOICE_FLAG_*
 	* @param api_callback The callback for ailia API
 	* @param version AILIA_VOICE_API_CALLBACK_VERSION
 	* is specified.)
