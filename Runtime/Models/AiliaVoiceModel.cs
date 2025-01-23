@@ -117,6 +117,37 @@ public class AiliaVoiceModel : IDisposable
 
 	/**
 	* \~japanese
+	* @brief ユーザ辞書を指定します。
+	* @param dictionary_path ユーザ辞書ファイルのパス名
+	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*
+	* @return
+	*   成功した場合はtrue、失敗した場合はfalseを返す。
+	* @details
+	*   OpenDictionaryの前に呼び出す必要があります。
+	*
+	* \~english
+	* @brief Set user dictionary file.
+	* @param net A network instance pointer
+	* @param dictionary_path The path name to the user dictionary file 
+	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*
+	* @return
+	*   If this function is successful, it returns  true  , or  false  otherwise.
+	* @details
+	*   You need to call before OpenDictionary.
+	*/
+	public bool SetUserDictionary(string dict_path, int dict_type){
+		int status = AiliaVoice.ailiaVoiceSetUserDictionaryFile(net, dict_path, dict_type);
+		if (status != 0){
+			if (debug_log){
+				Debug.Log("ailiaVoiceSetUserDictionaryFile faield " + status);
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	* \~japanese
 	* @brief 辞書を指定します。
 	* @param dictionary_path 辞書フォルダのパス名
 	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*
@@ -124,6 +155,7 @@ public class AiliaVoiceModel : IDisposable
 	*   成功した場合はtrue、失敗した場合はfalseを返す。
 	*
 	* \~english
+	* @brief Set dictionary path.
 	* @param net A network instance pointer
 	* @param dictionary_path The path name to the dictionary folder 
 	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*

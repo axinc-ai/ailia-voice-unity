@@ -397,6 +397,35 @@ public class AiliaVoice
 
 	/**
 	* \~japanese
+	* @brief ユーザ辞書を指定します。(MBSC)
+	* @param net ネットワークオブジェクトポインタ
+	* @param dictionary_path ユーザ辞書ファイルのパス名(MBSC)
+	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*
+	* @return
+	*   成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+	* @details
+	*   ailiaVoiceOpenDictionaryFileAの前に呼び出す必要があります。
+	*
+	* \~english
+	* @brief Set user dictionary into a network instance.
+	* @param net A network instance pointer
+	* @param dictionary_path The path name to the user dictionary file (MBSC)
+	* @param dictionary_type AILIA_VOICE_DICTIONARY_TYPE_*
+	* @return
+	*   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+	* @details
+	*   You need to call before ailiaVoiceOpenDictionaryFileA.
+	*/
+#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+	[DllImport(LIBRARY_NAME, EntryPoint = "ailiaVoiceSetUserDictionaryFileW", CharSet=CharSet.Unicode)]
+	public static extern int ailiaVoiceSetUserDictionaryFile(IntPtr net, string dictionary_path, int dictionary_type);
+#else
+	[DllImport(LIBRARY_NAME, EntryPoint = "ailiaVoiceSetUserDictionaryFileA", CharSet=CharSet.Ansi)]
+	public static extern int ailiaVoiceSetUserDictionaryFile(IntPtr net, string dictionary_path, int dictionary_type);
+#endif
+
+	/**
+	* \~japanese
 	* @brief 辞書を指定します。
 	* @param net ネットワークオブジェクトポインタ
 	* @param dictionary_path 辞書フォルダのパス名
@@ -412,13 +441,13 @@ public class AiliaVoice
 	* @return
 	*   If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
 	*/
-//#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-//	[DllImport(LIBRARY_NAME, EntryPoint = "ailiaVoiceOpenDictionaryFileW", CharSet=CharSet.Unicode)]
-//	public static extern int ailiaVoiceOpenDictionaryFile(IntPtr net, string encoder, string decoder,, string postnet, string waveglow, int model_type); // not implemented
-//#else
+#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+	[DllImport(LIBRARY_NAME, EntryPoint = "ailiaVoiceOpenDictionaryFileW", CharSet=CharSet.Unicode)]
+	public static extern int ailiaVoiceOpenDictionaryFile(IntPtr net, string dictionary_path, int dictionary_type);
+#else
 	[DllImport(LIBRARY_NAME, EntryPoint = "ailiaVoiceOpenDictionaryFileA", CharSet=CharSet.Ansi)]
 	public static extern int ailiaVoiceOpenDictionaryFile(IntPtr net, string dictionary_path, int dictionary_type);
-//#endif
+#endif
 
 	/**
 	* \~japanese
